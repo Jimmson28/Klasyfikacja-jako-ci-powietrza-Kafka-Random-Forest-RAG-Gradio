@@ -4,7 +4,7 @@ Projekt zaliczeniowy: skonteneryzowany system, który klasyfikuje stan jakości 
 
 ## Jak to działa
 
-1. `producer` wysyła pomiary PM10 i PM2.5 do Kafki (domyślnie z symulatora, dla 8 stacji).
+1. `producer` wysyła pomiary PM10 i PM2.5 do Kafki (z symulatora, dla 8 stacji).
 2. `processor` bierze ostatnie 12 pomiarów stacji i liczy z nich cechy. Klasę wybiera Random Forest, a reguły z metodyki służą do porównania.
 3. `api` zapisuje wynik w SQLite, szuka pasujących fragmentów w bazie wiedzy (Milvus) i robi wyjaśnienie. Najpierw dostaje ono prosty szablon, a potem model językowy z Hugging Face podmienia go na lepszy tekst.
 4. `ui` (Gradio) pokazuje stacje, wykres i wyjaśnienie.
@@ -71,7 +71,7 @@ docker compose down
 
 Żeby usunąć też zapisane dane, dodaj `-v`: `docker compose down -v`.
 
-Ustawienia (np. `DATA_SOURCE=gios` dla prawdziwych danych z GIOŚ) można zmienić w pliku `.env`, wzór jest w `.env.example`.
+Ustawienia (np. odstęp między pomiarami) można zmienić w pliku `.env`, wzór jest w `.env.example`.
 
 ## Trening modelu
 
