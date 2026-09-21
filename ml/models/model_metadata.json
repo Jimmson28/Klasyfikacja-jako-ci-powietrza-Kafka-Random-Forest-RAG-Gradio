@@ -1,0 +1,99 @@
+{
+  "feature_columns": [
+    "missing_ratio",
+    "n_present",
+    "pm10_mean",
+    "pm10_std",
+    "pm10_min",
+    "pm10_max",
+    "pm10_cv",
+    "pm10_pct_change",
+    "pm25_mean",
+    "pm25_std",
+    "pm25_min",
+    "pm25_max",
+    "pm25_cv",
+    "pm25_pct_change"
+  ],
+  "label_column": "label",
+  "classes": [
+    "gwaltowne_pogorszenie",
+    "niestabilny_pomiar",
+    "niewystarczajace_dane",
+    "podwyzszone_stezenie_pylow",
+    "poprawa",
+    "typowy_profil_pomiarowy"
+  ],
+  "n_estimators": 300,
+  "max_depth": 12,
+  "test_accuracy": 0.9916666666666667,
+  "classification_report": {
+    "gwaltowne_pogorszenie": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 80.0
+    },
+    "niestabilny_pomiar": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 80.0
+    },
+    "niewystarczajace_dane": {
+      "precision": 0.9876543209876543,
+      "recall": 1.0,
+      "f1-score": 0.9937888198757764,
+      "support": 80.0
+    },
+    "podwyzszone_stezenie_pylow": {
+      "precision": 1.0,
+      "recall": 0.9625,
+      "f1-score": 0.9808917197452229,
+      "support": 80.0
+    },
+    "poprawa": {
+      "precision": 0.963855421686747,
+      "recall": 1.0,
+      "f1-score": 0.9815950920245399,
+      "support": 80.0
+    },
+    "typowy_profil_pomiarowy": {
+      "precision": 1.0,
+      "recall": 0.9875,
+      "f1-score": 0.9937106918238994,
+      "support": 80.0
+    },
+    "accuracy": 0.9916666666666667,
+    "macro avg": {
+      "precision": 0.9919182904457337,
+      "recall": 0.9916666666666667,
+      "f1-score": 0.9916643872449065,
+      "support": 480.0
+    },
+    "weighted avg": {
+      "precision": 0.9919182904457335,
+      "recall": 0.9916666666666667,
+      "f1-score": 0.9916643872449065,
+      "support": 480.0
+    }
+  },
+  "feature_importances": {
+    "missing_ratio": 0.043792590542232876,
+    "n_present": 0.03730896089373145,
+    "pm10_mean": 0.10583771488675783,
+    "pm10_std": 0.06471522091515079,
+    "pm10_min": 0.05178026372884947,
+    "pm10_max": 0.07561321540865407,
+    "pm10_cv": 0.14259356640393334,
+    "pm10_pct_change": 0.039437908079689915,
+    "pm25_mean": 0.08218477811082855,
+    "pm25_std": 0.0838657160416034,
+    "pm25_min": 0.03216131826234668,
+    "pm25_max": 0.06834377424051456,
+    "pm25_cv": 0.13699479287648209,
+    "pm25_pct_change": 0.0353701796092249
+  },
+  "n_train": 1920,
+  "n_test": 480
+}

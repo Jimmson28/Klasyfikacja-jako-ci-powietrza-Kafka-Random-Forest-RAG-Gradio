@@ -1,0 +1,131 @@
+{
+  "title": "Jakość powietrza - klasyfikacja i RAG/LLM",
+  "uid": "air-quality-mvp",
+  "timezone": "browser",
+  "schemaVersion": 39,
+  "version": 1,
+  "refresh": "10s",
+  "time": { "from": "now-1h", "to": "now" },
+  "panels": [
+    {
+      "id": 1,
+      "title": "Klasyfikacje wg klasy (rate/5m)",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+      "targets": [
+        {
+          "expr": "sum by (label) (rate(processor_classifications_total[5m]))",
+          "legendFormat": "{{label}}"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Zgodność reguły z Random Forest",
+      "type": "gauge",
+      "gridPos": { "h": 8, "w": 6, "x": 12, "y": 0 },
+      "fieldConfig": { "defaults": { "unit": "percentunit", "min": 0, "max": 1 }, "overrides": [] },
+      "targets": [
+        {
+          "expr": "sum(rate(processor_rule_rf_agreement_total{match=\"true\"}[15m])) / sum(rate(processor_rule_rf_agreement_total[15m]))",
+          "legendFormat": "zgodność"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Źródło wyjaśnień (LLM vs szablon zapasowy)",
+      "type": "piechart",
+      "gridPos": { "h": 8, "w": 6, "x": 18, "y": 0 },
+      "targets": [
+        {
+          "expr": "sum by (source) (increase(api_explanations_total[1h]))",
+          "legendFormat": "{{source}}"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Czas przetwarzania okna (p95, processor)",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 8, "x": 0, "y": 8 },
+      "fieldConfig": { "defaults": { "unit": "s" }, "overrides": [] },
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(processor_processing_latency_seconds_bucket[5m])) by (le))",
+          "legendFormat": "p95 processing"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Czas generowania wyjaśnienia (p95, LLM/RAG)",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 8, "x": 8, "y": 8 },
+      "fieldConfig": { "defaults": { "unit": "s" }, "overrides": [] },
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(api_explanation_latency_seconds_bucket[5m])) by (le))",
+          "legendFormat": "p95 wyjaśnienie (LLM)"
+        },
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(api_rag_retrieval_latency_seconds_bucket[5m])) by (le))",
+          "legendFormat": "p95 retrieval (Milvus)"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Pomiary wyprodukowane wg stacji (rate/5m)",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 8, "x": 16, "y": 8 },
+      "targets": [
+        {
+          "expr": "sum by (station_id) (rate(producer_messages_total[5m]))",
+          "legendFormat": "{{station_id}}"
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Pomiary skonsumowane łącznie (processor)",
+      "type": "stat",
+      "gridPos": { "h": 6, "w": 6, "x": 0, "y": 16 },
+      "targets": [
+        { "expr": "processor_messages_consumed_total", "legendFormat": "consumed" }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Błędy producenta (rate/5m)",
+      "type": "stat",
+      "gridPos": { "h": 6, "w": 6, "x": 6, "y": 16 },
+      "targets": [
+        { "expr": "sum(rate(producer_errors_total[5m]))", "legendFormat": "errors" }
+      ]
+    },
+    {
+      "id": 9,
+      "title": "Wywołania endpointu /classify (manualny test)",
+      "type": "stat",
+      "gridPos": { "h": 6, "w": 6, "x": 12, "y": 16 },
+      "targets": [
+        { "expr": "api_manual_classify_total", "legendFormat": "manual classify" }
+      ]
+    },
+    {
+      "id": 10,
+      "title": "Zaległość wyjaśnień RAG/LLM (kolejka)",
+      "type": "stat",
+      "gridPos": { "h": 6, "w": 6, "x": 18, "y": 16 },
+      "fieldConfig": { "defaults": { "thresholds": { "steps": [
+        { "color": "green", "value": null },
+        { "color": "orange", "value": 15 },
+        { "color": "red", "value": 100 }
+      ] } }, "overrides": [] },
+      "targets": [
+        { "expr": "api_explanation_queue_depth", "legendFormat": "queue depth" }
+      ]
+    }
+  ]
+}
