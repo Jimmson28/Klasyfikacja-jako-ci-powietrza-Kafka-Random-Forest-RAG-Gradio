@@ -60,8 +60,8 @@ Adresy:
 
 - interfejs: http://localhost:7860
 - API (dokumentacja): http://localhost:8000/docs
-- Grafana: http://localhost:3001 (login `admin`, hasło `admin`)
-- Prometheus: http://localhost:9090
+- Grafana: http://localhost:3001 (od razu pokazuje dashboard, wykresy zapełniają się po kilku minutach działania; login `admin`, hasło `admin` jest potrzebny tylko do edycji)
+- Prometheus: http://localhost:9090 (to narzędzie do zapytań, więc na początku jest puste: wpisz np. `up` albo `api_rag_retrieval_latency_seconds_count` i kliknij Execute)
 
 Zatrzymanie:
 

@@ -210,6 +210,7 @@ services:
       GF_SECURITY_ADMIN_PASSWORD: admin
       GF_AUTH_ANONYMOUS_ENABLED: "true"
       GF_AUTH_ANONYMOUS_ORG_ROLE: Viewer
+      GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: /etc/grafana/provisioning/dashboards/json/air_quality.json
     volumes:
       - ./monitoring/grafana/provisioning:/etc/grafana/provisioning:ro,Z
       - ./monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards/json:ro,Z
