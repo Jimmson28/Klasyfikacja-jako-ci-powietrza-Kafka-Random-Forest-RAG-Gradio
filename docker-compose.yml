@@ -38,7 +38,6 @@ services:
 
   kafka-ui:
     image: docker.io/provectuslabs/kafka-ui:latest
-    profiles: ["tools"]
     ports:
       - "8080:8080"
     environment:
@@ -65,13 +64,13 @@ services:
       retries: 5
 
   minio:
-    image: quay.io/minio/minio:RELEASE.2025-09-07T16-13-09Z
+    image: docker.io/bitnamilegacy/minio:2025.7.23-debian-12-r5
+    user: root
     environment:
       MINIO_ROOT_USER: minioadmin
       MINIO_ROOT_PASSWORD: minioadmin
     volumes:
-      - minio_data:/minio_data
-    command: minio server /minio_data --console-address ":9001"
+      - minio_data:/bitnami/minio/data
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
       interval: 30s
@@ -102,6 +101,16 @@ services:
       start_period: 90s
       timeout: 20s
       retries: 5
+
+  attu:
+    image: docker.io/zilliz/attu:v2.6.5
+    environment:
+      MILVUS_URL: milvus-standalone:19530
+    ports:
+      - "3002:3000"
+    depends_on:
+      milvus-standalone:
+        condition: service_healthy
 
   producer:
     build:
@@ -170,6 +179,14 @@ services:
       retries: 10
       start_period: 60s
     restart: unless-stopped
+
+  sqlite-web:
+    image: ghcr.io/coleifer/sqlite-web
+    command: ["classifications.db"]
+    volumes:
+      - ./data/db:/data:ro,Z
+    ports:
+      - "8081:8080"
 
   ui:
     build:

@@ -46,7 +46,7 @@ Potrzebne są:
 - około 6 GB wolnego RAM-u (w Docker Desktop trzeba to ustawić w opcjach)
 - około 10 GB miejsca na dysku
 - internet przy pierwszym starcie
-- wolne porty 7860, 8000, 3001, 9090, 9091, 9092 i 19530
+- wolne porty 7860, 8000, 3001, 9090, 9091, 9092, 19530, 8080, 3002 i 8081
 
 ```
 docker compose up --build
@@ -62,6 +62,12 @@ Adresy:
 - API (dokumentacja): http://localhost:8000/docs
 - Grafana: http://localhost:3001 (od razu pokazuje dashboard, wykresy zapełniają się po kilku minutach działania; login `admin`, hasło `admin` jest potrzebny tylko do edycji)
 - Prometheus: http://localhost:9090 (to narzędzie do zapytań, więc na początku jest puste: wpisz np. `up` albo `api_rag_retrieval_latency_seconds_count` i kliknij Execute)
+
+Narzędzia do podglądu zawartości baz (co faktycznie siedzi w środku, bez pisania zapytań):
+
+- **Kafka UI**: http://localhost:8080 — podgląd tematów `air-quality-raw` i `air-quality-classified`, wiadomości, konsumentów.
+- **Attu** (GUI Milvusa): http://localhost:3002 — połącz się z `milvus-standalone:19530` (już ustawione domyślnie), kolekcja `air_quality_kb` pokazuje 26 zaindeksowanych fragmentów bazy wiedzy wraz z wektorami.
+- **sqlite-web**: http://localhost:8081 — przeglądarka tabeli `classifications` z SQLite (tylko do odczytu), widać tam zapisane klasyfikacje i wyjaśnienia.
 
 Zatrzymanie:
 
